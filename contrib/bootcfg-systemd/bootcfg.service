@@ -6,5 +6,4 @@ After=network-online.target
 Requires=network-online.target
 
 [Service]
-ExecStartPre=
-ExecStart=
+ExecStart=/opt/k8s-install/bin/bootcfg -address 0.0.0.0:8080 -data-path /opt/k8s-install/bootcfg -assets-path /opt/k8s-install/bootcfg/assets -log-level debug
