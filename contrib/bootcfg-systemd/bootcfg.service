@@ -1,0 +1,10 @@
+# Bootcfg baremetal boot service
+
+[Unit]
+Description=Bootcfg baremetal boot service
+After=network-online.target
+Requires=network-online.target
+
+[Service]
+ExecStartPre=
+ExecStart=
