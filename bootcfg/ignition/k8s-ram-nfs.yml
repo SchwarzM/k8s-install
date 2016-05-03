@@ -1,0 +1,13 @@
+---
+ignition_version: 1
+systemd:
+  units:
+    - name: rpc-statd.service
+      enable: true
+    - name: mnt-etcd.mount
+      enable: true
+      contents: |
+        [Mount]
+        What=10.0.1.2:/mnt/vol0/baal/etcd
+        Where=/mnt/etcd
+        Type=nfs
