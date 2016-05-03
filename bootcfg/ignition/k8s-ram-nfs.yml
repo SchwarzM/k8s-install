@@ -13,7 +13,7 @@ systemd:
         - name: 20-discover.conf
           contents: |
             [Service]
-            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/43852665ae534f7ed12e04ee66ce0b60
+            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/c7236d0eab9d1b9bc86f162d6e2fd913
         - name: 30-data.conf
           contents: |
             [Service]
