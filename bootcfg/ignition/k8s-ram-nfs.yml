@@ -2,28 +2,55 @@
 ignition_version: 1
 systemd:
   units:
+    - name: iscsid.service
+      enable: true
+      contents: |
+        [Unit]
+        Description=Open-iSCSI daemon
+        Requires=network-online.target
+        After=network-online.target
+
+        [Service]
+        Type=forking
+        PIDFile=/var/run/iscsid.pid
+        ExecStartPre=/usr/bin/wget -O /usr/bin/iscsiadm {{.bootcfg_url}}/assets/iscsi/iscsiadm && chmod 755 /usr/bin/iscsiadm
+        ExecStartPre=/usr/bin/wget -O /usr/sbin/iscsid {{.bootcfg_url}}/assets/iscsi/iscsid && chmod 755 /usr/sbin/iscsid
+        ExecStart=/usr/sbin/iscsid
+        ExecStop=/usr/bin/iscsiadm -k 0 2
+
+        [Install]
+        RequiredBy=remote-fs.target
+    - name: iscsi-login.service
+      enable: true
+      contents: |
+        [Unit]
+        Description=iSCSI Login
+        Requires=network-online.target iscsid.service
+        After=iscsid.service
+
+        [Service]
+        Type=oneshot
+        ExecStartPre=/usr/bin/iscsiadm -m discovery -t sendtargets -p {{.iscsi_os_portal}}
+        ExecStart=/usr/bin/iscsiadm -m node -T {{.iscsi_os_target}} -p {{.iscsi_os_portal}} --login
+
+        [Install]
+        RequiredBy=remote-fs.target
     - name: etcd2.service
       enable: true
       dropins:
         - name: 10-mount.conf
           contents: |
             [Unit]
-            After=mnt-etcd.mount
-            Requires=mnt-etcd.mount
+            RequiresMountsFor=/var/lib/etcd
         - name: 20-discover.conf
           contents: |
             [Service]
             Environment=ETCD_DISCOVERY=https://discovery.etcd.io/c7236d0eab9d1b9bc86f162d6e2fd913
-        - name: 30-data.conf
-          contents: |
-            [Service]
-            Environment=ETCD_DATA_DIR=/mnt/etcd
-    - name: rpc-statd.service
-      enable: true
     - name: mnt-etcd.mount
       enable: true
       contents: |
         [Mount]
-        What=10.0.1.2:/mnt/vol0/baal/etcd
-        Where=/mnt/etcd
-        Type=nfs
+        What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_target}}-lun-0
+        Where=/var/lib/etcd
+        Options=defaults,auto,_netdev
+        Type=ext4
