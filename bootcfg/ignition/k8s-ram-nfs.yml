@@ -1,5 +1,5 @@
 ---
-ignition_version: 2
+ignition_version: 1
 storage:
   filesystems:
     - device: "/dev/disk/by-label/ROOT"
