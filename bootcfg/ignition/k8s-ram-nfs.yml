@@ -54,11 +54,12 @@ systemd:
         - name: 10-mount.conf
           contents: |
             [Unit]
-            RequiresMountsFor=/var/lib/etcd
+            Requires=var-lib-etcd.mount
+            After=var-lib-etcd.mount
         - name: 20-discover.conf
           contents: |
             [Service]
-            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/c7236d0eab9d1b9bc86f162d6e2fd913
+            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/e9ca05eee06272e86ec4f26a7e05dc1e
     - name: var-lib-etcd.mount
       enable: true
       contents: |
