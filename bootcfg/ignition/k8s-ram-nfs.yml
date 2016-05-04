@@ -54,17 +54,17 @@ systemd:
         - name: 10-mount.conf
           contents: |
             [Unit]
-            Requires=var-lib-etcd.mount
-            After=var-lib-etcd.mount
+            Requires=var-lib-etcd2.mount
+            After=var-lib-etcd2.mount
         - name: 20-discover.conf
           contents: |
             [Service]
             Environment=ETCD_DISCOVERY=https://discovery.etcd.io/e9ca05eee06272e86ec4f26a7e05dc1e
-    - name: var-lib-etcd.mount
+    - name: var-lib-etcd2.mount
       enable: true
       contents: |
         [Mount]
         What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_target}}-lun-0
-        Where=/var/lib/etcd
+        Where=/var/lib/etcd2
         Options=defaults,auto,_netdev
         Type=ext4
