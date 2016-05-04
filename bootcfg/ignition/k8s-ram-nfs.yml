@@ -11,7 +11,7 @@ systemd:
         [Service]
         Type=oneshot
         ExecStartPre=/usr/bin/mkdir -p /etc/iscsi
-        ExecStart=/usr/bin/echo "InitiatorName=iqn.2016-01.com.coreos:{{.hostname}}" > /etc/iscsi/initiatorname.iscsi
+        ExecStart=/usr/bin/bash -l -c "echo InitiatorName=iqn.2016-01.com.coreos:{{.hostname}} > /etc/iscsi/initiatorname.iscsi"
     - name: iscsid.service
       enable: true
       contents: |
