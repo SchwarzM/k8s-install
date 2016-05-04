@@ -13,10 +13,11 @@ systemd:
         [Service]
         Type=forking
         PIDFile=/var/run/iscsid.pid
-        ExecStartPre=/usr/bin/wget -O /usr/bin/iscsiadm {{.bootcfg_url}}/assets/iscsi/iscsiadm && chmod 755 /usr/bin/iscsiadm
-        ExecStartPre=/usr/bin/wget -O /usr/sbin/iscsid {{.bootcfg_url}}/assets/iscsi/iscsid && chmod 755 /usr/sbin/iscsid
-        ExecStart=/usr/sbin/iscsid
-        ExecStop=/usr/bin/iscsiadm -k 0 2
+        ExecStartPre=/usr/bin/mkdir -p /opt/bin
+        ExecStartPre=/usr/bin/wget -O /opt/bin/iscsiadm {{.bootcfg_url}}/assets/iscsi/iscsiadm && chmod 755 /opt/bin/iscsiadm
+        ExecStartPre=/usr/bin/wget -O /opt/bin/iscsid {{.bootcfg_url}}/assets/iscsi/iscsid && chmod 755 /opt/bin/iscsid
+        ExecStart=/opt/bin/iscsid
+        ExecStop=/opt/bin/iscsiadm -k 0 2
 
         [Install]
         RequiredBy=remote-fs.target
@@ -30,8 +31,8 @@ systemd:
 
         [Service]
         Type=oneshot
-        ExecStartPre=/usr/bin/iscsiadm -m discovery -t sendtargets -p {{.iscsi_os_portal}}
-        ExecStart=/usr/bin/iscsiadm -m node -T {{.iscsi_os_target}} -p {{.iscsi_os_portal}} --login
+        ExecStartPre=/opt/bin/iscsiadm -m discovery -t sendtargets -p {{.iscsi_os_portal}}
+        ExecStart=/opt/bin/iscsiadm -m node -T {{.iscsi_os_target}} -p {{.iscsi_os_portal}} --login
 
         [Install]
         RequiredBy=remote-fs.target
