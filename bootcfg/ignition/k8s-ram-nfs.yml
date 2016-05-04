@@ -49,7 +49,7 @@ systemd:
           contents: |
             [Service]
             Environment=ETCD_DISCOVERY=https://discovery.etcd.io/c7236d0eab9d1b9bc86f162d6e2fd913
-    - name: mnt-etcd.mount
+    - name: var-lib-etcd.mount
       enable: true
       contents: |
         [Mount]
