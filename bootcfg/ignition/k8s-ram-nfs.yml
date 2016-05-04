@@ -1,5 +1,14 @@
 ---
-ignition_version: 1
+ignition_version: 2
+storage:
+  filesystems:
+    - device: "/dev/disk/by-label/ROOT"
+      format: "ext4"
+      files:
+        - path: "/etc/iscsi/initiatorname.iscsi"
+          mode: 0644
+          contents: |
+            InitiatorName=iqn.2016-01.com.coreos:{{.hostname}}
 systemd:
   units:
     - name: iscsid.service
