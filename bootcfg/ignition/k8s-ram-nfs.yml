@@ -1,23 +1,24 @@
 ---
 ignition_version: 1
-storage:
-  filesystems:
-    - device: "/dev/disk/by-label/ROOT"
-      format: "ext4"
-      files:
-        - path: "/etc/iscsi/initiatorname.iscsi"
-          mode: 0644
-          contents: |
-            InitiatorName=iqn.2016-01.com.coreos:{{.hostname}}
 systemd:
   units:
+    - name: iscsi-config.service
+      enable: true
+      contents: |
+        [Unit]
+        Description=Config iscsi
+        
+        [Service]
+        Type=oneshot
+        ExecStartPre=/usr/bin/mkdir -p /etc/iscsi
+        ExecStart=/usr/bin/echo "InitiatorName=iqn.2016-01.com.coreos:{{.hostname}}" >> /etc/iscsi/initiatorname.iscsi
     - name: iscsid.service
       enable: true
       contents: |
         [Unit]
         Description=Open-iSCSI daemon
-        Requires=network-online.target
-        After=network-online.target
+        Requires=network-online.target iscsi-config.service
+        After=network-online.target iscsi-config.service
 
         [Service]
         Type=forking
