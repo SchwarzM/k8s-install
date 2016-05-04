@@ -14,8 +14,10 @@ systemd:
         Type=forking
         PIDFile=/var/run/iscsid.pid
         ExecStartPre=/usr/bin/mkdir -p /opt/bin
-        ExecStartPre=/usr/bin/wget -O /opt/bin/iscsiadm {{.bootcfg_url}}/assets/iscsi/iscsiadm && chmod 755 /opt/bin/iscsiadm
-        ExecStartPre=/usr/bin/wget -O /opt/bin/iscsid {{.bootcfg_url}}/assets/iscsi/iscsid && chmod 755 /opt/bin/iscsid
+        ExecStartPre=/usr/bin/wget -O /opt/bin/iscsiadm {{.bootcfg_url}}/assets/iscsi/iscsiadm
+        ExecStartPre=/usr/bin/chmod 755 /opt/bin/iscsiadm
+        ExecStartPre=/usr/bin/wget -O /opt/bin/iscsid {{.bootcfg_url}}/assets/iscsi/iscsid
+        ExecStartPre=/usr/bin/chmod 755 /opt/bin/iscsid
         ExecStart=/opt/bin/iscsid
         ExecStop=/opt/bin/iscsiadm -k 0 2
 
