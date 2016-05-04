@@ -1,8 +1,12 @@
 {
-  "id": "home",
-  "name": "Home",
+  "id": "baal",
+  "name": "Baal",
   "profile": "k8s",
+  "selector": {
+    "mac": "00:22:4d:6c:2f:75"
+  },
   "metadata": {
+    "hostname": "baal",
     "bootcfg_url": "http://bootcfg.hell.corp:8080",
     "iscsi_os_portal": "10.0.1.2",
     "iscsi_os_target": "iqn.2005-10.org.freenas.ctl:baal-coreos"
