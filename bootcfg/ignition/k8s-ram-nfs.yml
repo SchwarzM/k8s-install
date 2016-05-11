@@ -9,6 +9,20 @@ passwd:
 
 systemd:
   units:
+    - name: bird.service
+      enable: true
+      contents: |
+        [Unit]
+        Description=Bird BGP Daemon
+
+        [Service]
+        ExecStartPre=/usr/bin/mkdir -p /opt/bin
+        ExecStartPre=/usr/bin/wget -O /opt/bin/bird {{.bootcfg_url}}/assets/bird/bird
+        ExecStartPre=/usr/bin/chmod 755 /opt/bin/bird
+        ExecStart=/opt/bin/bird -d
+
+        [Install]
+        WantedBy=multi-user.target
     - name: iscsi-config.service
       enable: true
       contents: |
