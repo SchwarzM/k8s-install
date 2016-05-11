@@ -1,5 +1,12 @@
 ---
 ignition_version: 1
+
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8csscPRh9GHBb/YBwlgRXqWDz+SpiGwpaheuNGFPwDeTuHdUvKG3KbgKtsIkL/p662++81YeRGOXdXAEEF/igSrBbZ68U0Ebg2hnHxIHrLkAefkfFWNkQWWIEgVCby7YkbFZQL1v9otycX6apcj4ZfpK0bWcRFokSdrCC+KRFdQHVuvoy65QUPiHZUmhe3+7CILWz0c1F2Obv+Ybq1nnfvsR/eooMrvb1Nav1PsY7/hvlecr7SnSVkwDpc8m31uNv7IAGeh9ceXbySsD4cupDbWn+J8QPkjxoJK0ion+9fNq8ZjmXyAwpKs8L2DIrD03u9XKlhbS9Q/Mgas2NuBFhqGMoPIffeSjwAMi32wzMPdJFhh6wsGinsgkeFNfcAPoBBPYvsu61vbpD0TjHponAKFimUeW321hunugkfV/5lyb3fB73hv9olWH7rolSx543q+NMrvCB4OkFBA6l1wA5LMJ3fN0ZebxLQ5wi1B4QRya6bYC7en9BIYE1qU82d2Fcx32xrHL2zlBOUywVJWHnqkLTyYKAsANgjkb3aDV8DtEssU/m/mmJp9/HOONKdSBNoTdpEIG7yNidElI8Cz4CkXXF+qWW2NFXBV3ANUTetUlz/BJUJaxACwjOj4VjYYgPxTo0ZrkQHjrqn9cEf4gwnewLZW4GnfMT0v8g+FFwPw==
+
 systemd:
   units:
     - name: iscsi-config.service
