@@ -9,6 +9,27 @@ passwd:
 
 systemd:
   units:
+    - name: bird-config.service
+      enable: true
+      contents: |
+        [Unit]
+        Description=Config bird
+
+        [Service]
+        Type=oneshot
+        ExecStartPre=/usr/bin/mkdir -p /etc/bird
+        ExecStart=/usr/bin/bash -l -c "echo << EOF > /etc/bird/bird.conf
+        protocol kernel {
+          persist;
+          export all;
+        }
+        protocol device {
+          scan time 10;
+        }
+        protocol bgp {
+          local as 64512;
+        }
+        EOF"
     - name: bird.service
       enable: true
       contents: |
@@ -20,7 +41,6 @@ systemd:
         [Service]
         ExecStartPre=/usr/bin/mkdir -p /opt/bin
         ExecStartPre=/usr/bin/mkdir -p /run/bird
-        ExecStartPre=/usr/bin/mkdir -p /etc/bird
         ExecStartPre=/usr/bin/wget -O /opt/bin/bird {{.bootcfg_url}}/assets/bird/bird
         ExecStartPre=/usr/bin/chmod 755 /opt/bin/bird
         ExecStart=/opt/bin/bird -d
