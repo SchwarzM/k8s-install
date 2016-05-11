@@ -9,7 +9,7 @@ passwd:
 
 storage:
   filesystems:
-    - device: "/dev/disk/by-label/ROOT"
+    - device: "/sysroot"
       format: "ext4"
       files:
         - path: /etc/bird/bird.conf
