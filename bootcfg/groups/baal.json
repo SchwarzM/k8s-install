@@ -9,6 +9,8 @@
     "hostname": "baal",
     "bootcfg_url": "http://bootcfg:8080",
     "iscsi_os_portal": "10.0.1.2",
-    "iscsi_os_target": "iqn.2005-10.org.freenas.ctl:baal-coreos"
+    "iscsi_os_target": "iqn.2005-10.org.freenas.ctl:baal-coreos",
+    "bgp_neighbor": "10.0.1.12",
+    "bgp_as": "64512"
   }
 }
