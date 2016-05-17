@@ -1,5 +1,6 @@
 ---
-ignition_version: 2
+ignition:
+  version: "2.0.0"
 
 passwd:
   users:
