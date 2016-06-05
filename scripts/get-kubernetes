@@ -28,4 +28,14 @@ curl ${BASE_URL}/kube-proxy.sha1 -o ${DEST}/kube-proxy.sha1
 
 echo "$(cat ${DEST}/kube-proxy.sha1) ${DEST}/kube-proxy" | sha1sum -c -
 
+curl ${BASE_URL}/kube-scheduler      -o ${DEST}/kube-scheduler
+curl ${BASE_URL}/kube-scheduler.sha1 -o ${DEST}/kube-scheduler.sha1
+
+echo "$(cat ${DEST}/kube-scheduler.sha1) ${DEST}/kube-scheduler" | sha1sum -c -
+
+curl ${BASE_URL}/kube-controller-manager      -o ${DEST}/kube-controller-manager
+curl ${BASE_URL}/kube-controller-manager.sha1 -o ${DEST}/kube-controller-manager.sha1
+
+echo "$(cat ${DEST}/kube-controller-manager.sha1) ${DEST}/kube-controller-manager" | sha1sum -c -
+
 ln -s ${DEST} ${PWD}/bootcfg/assets/kubernetes/binaries/vendored
