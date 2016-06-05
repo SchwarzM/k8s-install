@@ -90,7 +90,7 @@ systemd:
         - name: 20-discover.conf
           contents: |
             [Service]
-            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/83c860bf2ccc415741f84c2241dc00d8
+            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/88e2ab62d9edec3a83199a92d859388e
     - name: var-lib-etcd2.mount
       enable: true
       contents: |
