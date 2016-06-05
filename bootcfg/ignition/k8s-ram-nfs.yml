@@ -39,11 +39,11 @@ storage:
       mode: 0644
       contents:
         source: {{.bootcfg_url}}/assets/kubernetes/config/kube-proxy.service
-    - path: /etc/kubernetes/kube-proxy
+    - path: /etc/kubernetes/proxy
       filesystem: root
       mode: 0644
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-proxy
+        source: {{.bootcfg_url}}/assets/kubernetes/config/proxy
     - path: /opt/bin/kube-apiserver
       filesystem: root
       mode: 0755
