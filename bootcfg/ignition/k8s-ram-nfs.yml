@@ -91,6 +91,7 @@ systemd:
           contents: |
             [Service]
             Environment=ETCD_DISCOVERY=https://discovery.etcd.io/88e2ab62d9edec3a83199a92d859388e
+            Environment=ETCD_INITIAL_ADVERTISE_PEER_URLS=http://{{.hostname}}:2380
     - name: var-lib-etcd2.mount
       enable: true
       contents: |
