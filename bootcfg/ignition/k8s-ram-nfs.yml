@@ -90,7 +90,7 @@ systemd:
         - name: 20-discover.conf
           contents: |
             [Service]
-            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/3fa0f2c9bb3dc9e3825802e3d9fffa96
+            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/42041290eb2e599dfd3a21e124c2309c
             Environment=ETCD_INITIAL_ADVERTISE_PEER_URLS=http://{{.hostname}}:2380
             Environment=ETCD_NAME={{.hostname}}
             Environment=ETCD_LISTEN_PEER_URLS=http://{{.hostname}}:2380
