@@ -33,7 +33,7 @@ storage:
       filesystem: root
       mode: 0755
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/vendored/kube-apiserver
+        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-apiserver
 
 systemd:
   units:
