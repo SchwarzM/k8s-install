@@ -8,7 +8,7 @@ After=etcd.service
 EnvironmentFile=-/etc/kubernetes/config
 EnvironmentFile=-/etc/kubernetes/apiserver
 User=kube
-ExecStart=/usr/bin/kube-apiserver \
+ExecStart=/opt/bin/kube-apiserver \
 	    $KUBE_LOGTOSTDERR \
 	    $KUBE_LOG_LEVEL \
 	    $KUBE_ETCD_SERVERS \
