@@ -122,7 +122,7 @@ systemd:
       enable: true
       contents: |
         [Mount]
-        What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_portal}}-lun-2
+        What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_target}}-lun-2
         Where=/var/lib/kubernetes
         Options=defaults,auto,_netdev
         Type=ext4
@@ -130,7 +130,7 @@ systemd:
       enable: true
       contents: |
         [Mount]
-        What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_portal}}-lun-1
+        What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_target}}-lun-1
         Where=/var/lib/docker
         Options=defaults,auto,_netdev
         Type=ext4
