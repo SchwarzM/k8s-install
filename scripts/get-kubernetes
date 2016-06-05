@@ -23,4 +23,9 @@ curl ${BASE_URL}/kube-apiserver.sha1 -o ${DEST}/kube-apiserver.sha1
 
 echo "$(cat ${DEST}/kube-apiserver.sha1) ${DEST}/kube-apiserver" | sha1sum -c -
 
+curl ${BASE_URL}/kube-proxy      -o ${DEST}/kube-proxy
+curl ${BASE_URL}/kube-proxy.sha1 -o ${DEST}/kube-proxy.sha1
+
+echo "$(cat ${DEST}/kube-proxy.sha1) ${DEST}/kube-proxy" | sha1sum -c -
+
 ln -s ${DEST} ${PWD}/bootcfg/assets/kubernetes/binaries/vendored

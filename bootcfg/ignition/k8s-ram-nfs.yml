@@ -29,6 +29,21 @@ storage:
       mode: 0755
       contents:
         source: {{.bootcfg_url}}/assets/iscsi/iscsid
+    - path: /opt/bin/kube-proxy
+      filesystem: root
+      mode: 0755
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-proxy
+    - path: /etc/systemd/system/kube-proxy.service
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-proxy.service
+    - path: /etc/kubernetes/kube-proxy
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-proxy
     - path: /opt/bin/kube-apiserver
       filesystem: root
       mode: 0755
@@ -53,6 +68,8 @@ storage:
 systemd:
   units:
     - name: kube-apiserver.service
+      enable: true
+    - name: kube-proxy.service
       enable: true
     - name: bird.service
       enable: true
