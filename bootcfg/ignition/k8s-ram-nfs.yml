@@ -45,6 +45,7 @@ storage:
       contents:
         source: {{.bootcfg_url}}/assets/kubernetes/config/config
     - path: /etc/kubernetes/apiserver
+      filesystem: root
       mode: 0644
       contents:
         source: {{.bootcfg_url}}/assets/kubernetes/config/apiserver
