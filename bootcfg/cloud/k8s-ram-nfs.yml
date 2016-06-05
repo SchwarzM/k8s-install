@@ -1,3 +1,6 @@
 #cloud-config
 
-hostname:{{.hostname}}
+hostname: "{{.hostname}}"
+coreos:
+  update:
+    reboot-strategy: "best-effort"
