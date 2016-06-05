@@ -34,9 +34,25 @@ storage:
       mode: 0755
       contents:
         source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-apiserver
+    - path: /etc/systemd/system/kube-apiserver.service
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-apiserver.service
+    - path: /etc/kubernetes/config
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/config
+    - path: /etc/kubernetes/apiserver
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/apiserver
 
 systemd:
   units:
+    - name: kube-apiserver.service
+      enable: true
     - name: bird.service
       enable: true
       contents: |
