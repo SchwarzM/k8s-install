@@ -1,3 +1,4 @@
 *.swp
 .DS_Store
 bootcfg/assets/kubernetes/binaries
+bootcfg/assets/coreos
