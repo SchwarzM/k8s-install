@@ -29,26 +29,6 @@ storage:
       mode: 0755
       contents:
         source: {{.bootcfg_url}}/assets/iscsi/iscsid
-    - path: /opt/bin/kube-scheduler
-      filesystem: root
-      mode: 0755
-      contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-scheduler
-    - path: /opt/bin/kube-controller-manager
-      filesystem: root
-      mode: 0755
-      contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-controller-manager
-    - path: /opt/bin/kube-proxy
-      filesystem: root
-      mode: 0755
-      contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-proxy
-    - path: /opt/bin/kube-apiserver
-      filesystem: root
-      mode: 0755
-      contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-apiserver
     - path: /etc/systemd/system/kube-controller-manager.service
       filesystem: root
       mode: 0644
@@ -69,6 +49,11 @@ storage:
       mode: 0644
       contents:
         source: {{.bootcfg_url}}/assets/kubernetes/config/kube-scheduler.service
+    - path: /etc/systemd/system/kubelet.service
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kubelet.service
     - path: /etc/kubernetes/config
       filesystem: root
       mode: 0644
@@ -94,9 +79,39 @@ storage:
       mode: 0644
       contents:
         source: {{.bootcfg_url}}/assets/kubernetes/config/proxy
+    - path: /etc/kubernetes/kubelet
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kubelet
 
 systemd:
   units:
+    - name: k8s-bin@.service
+      contents: |
+      [Unit]
+      Description=Fetch kubernetes binaries
+      Requires=network-online.target
+      After=network-online.target
+
+      [Service]
+      ExecStartPre=/usr/bin/mkdir -p /opt/bin
+      ExecStart=/usr/bin/curl -o /opt/bin/%i {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/%i
+      ExecStartPost=/usr/bin/chmod 0755 /opt/bin/%i
+    - name: k8s-assets.target
+      contents: |
+      [Unit]
+      Description=Load Kubernetes Assets
+      Requires=k8s-bin@kubelet.service
+      After=k8s-bin@kubelet.service
+      Requires=k8s-bin@kube-apiserver.service
+      After=k8s-bin@kube-apiserver.service
+      Requires=k8s-bin@kube-scheduler.service
+      After=k8s-bin@kube-scheduler.service
+      Requires=k8s-bin@kube-proxy.service
+      After=k8s-bin@kube-proxy.service
+      Requires=k8s-bin@kube-controller-manager.service
+      After=k8s-bin@kube-controller-manafer.service
     - name: kube-apiserver.service
       enable: true
     - name: kube-proxy.service
