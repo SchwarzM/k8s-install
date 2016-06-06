@@ -96,6 +96,7 @@ systemd:
         After=network-online.target
 
         [Service]
+        Type=oneshot
         ExecStartPre=/usr/bin/mkdir -p /opt/bin
         ExecStart=/usr/bin/curl -o /opt/bin/%i {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/%i
         ExecStartPost=/usr/bin/chmod 0755 /opt/bin/%i
