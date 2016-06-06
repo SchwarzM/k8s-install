@@ -12,6 +12,7 @@ storage:
   files:
     - path: /etc/bird/bird.conf
       filesystem: root
+      mode: 0644
       contents:
         source: {{.bootcfg_url}}/assets/bird/{{.hostname}}.conf
     - path: /opt/bin/bird
