@@ -29,30 +29,81 @@ storage:
       mode: 0755
       contents:
         source: {{.bootcfg_url}}/assets/iscsi/iscsid
-    - path: /opt/bin/kubelet
+    - path: /opt/bin/kube-scheduler
       filesystem: root
       mode: 0755
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kubelet
-    - path: /etc/systemd/system/kubelet.service
+        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-scheduler
+    - path: /opt/bin/kube-controller-manager
+      filesystem: root
+      mode: 0755
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-controller-manager
+    - path: /opt/bin/kube-proxy
+      filesystem: root
+      mode: 0755
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-proxy
+    - path: /opt/bin/kube-apiserver
+      filesystem: root
+      mode: 0755
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/kube-apiserver
+    - path: /etc/systemd/system/kube-controller-manager.service
       filesystem: root
       mode: 0644
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/config/kubelet.service
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-controller-manager.service
+    - path: /etc/systemd/system/kube-proxy.service
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-proxy.service
+    - path: /etc/systemd/system/kube-apiserver.service
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-apiserver.service
+    - path: /etc/systemd/system/kube-scheduler.service
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-scheduler.service
     - path: /etc/kubernetes/config
       filesystem: root
       mode: 0644
       contents:
         source: {{.bootcfg_url}}/assets/kubernetes/config/config
-    - path: /etc/kubernetes/kubelet
+    - path: /etc/kubernetes/apiserver
       filesystem: root
       mode: 0644
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/config/kubelet
+        source: {{.bootcfg_url}}/assets/kubernetes/config/apiserver
+    - path: /etc/kubernetes/controller-manager
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/controller-manager
+    - path: /etc/kubernetes/scheduler
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/scheduler
+    - path: /etc/kubernetes/proxy
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/proxy
 
 systemd:
   units:
-    - name: kubelet.service
+    - name: kube-apiserver.service
+      enable: true
+    - name: kube-proxy.service
+      enable: true
+    - name: kube-controller-manager.service
+      enable: true
+    - name: kube-scheduler.service
       enable: true
     - name: bird.service
       enable: true
