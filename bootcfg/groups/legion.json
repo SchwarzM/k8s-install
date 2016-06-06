@@ -12,6 +12,6 @@
     "iscsi_os_target": "iqn.2005-10.org.freenas.ctl:legion-coreos",
     "bgp_neighbor": "10.0.1.12",
     "bgp_as": "64512",
-    "pod_network": "10.2.2.0/24"
+    "pod_network": "10.2.2.1/24"
   }
 }
