@@ -5,7 +5,7 @@ After=docker.service k8s-assets.target var-lib-kubernetes.mount
 Requires=docker.service k8s-assets.target var-lib-kubernetes.mount
 
 [Service]
-WorkingDirectory=/var/lib/kubelet
+WorkingDirectory=/var/lib/kubernetes
 EnvironmentFile=-/etc/kubernetes/config
 EnvironmentFile=-/etc/kubernetes/kubelet
 ExecStart=/opt/bin/kubelet \
