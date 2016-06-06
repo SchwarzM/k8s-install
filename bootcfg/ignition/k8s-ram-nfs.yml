@@ -192,6 +192,10 @@ systemd:
             [Unit]
             Requires=var-lib-docker.mount
             After=var-lib-docker.mount
+        - name: 20-network.conf
+          contents: |
+            [Service]
+            Environment="DOCKER_OPT_BIP=--bip={{.pod_network}} --ip-masq=false --iptables=false"
     - name: etcd2.service
       enable: true
       dropins:
