@@ -1,8 +1,8 @@
 [Unit]
 Description=Kubernetes API Server
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
-After=network.target
-After=etcd2.service
+Requires=k8s-assets.target
+After=etcd2.service k8s-assets.target
 
 [Service]
 EnvironmentFile=-/etc/kubernetes/config
