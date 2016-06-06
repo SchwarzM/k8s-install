@@ -10,6 +10,11 @@ passwd:
 
 storage:
   files:
+    - path: /etc/hostname
+      filesystem: root
+      mode: 0644
+      contents:
+        source: data:application/octet-stream,{{.hostname}}%0A
     - path: /etc/bird/bird.conf
       filesystem: root
       mode: 0644
