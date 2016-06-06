@@ -1,8 +1,8 @@
 [Unit]
 Description=Kubernetes Kubelet Server
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
-After=docker.service k8s-assets.target
-Requires=docker.service k8s-assets.target
+After=docker.service k8s-assets.target var-lib-kubernetes.mount
+Requires=docker.service k8s-assets.target var-lib-kubernetes.mount
 
 [Service]
 WorkingDirectory=/var/lib/kubelet
