@@ -90,29 +90,29 @@ systemd:
   units:
     - name: k8s-bin@.service
       contents: |
-      [Unit]
-      Description=Fetch kubernetes binaries
-      Requires=network-online.target
-      After=network-online.target
+        [Unit]
+        Description=Fetch kubernetes binaries
+        Requires=network-online.target
+        After=network-online.target
 
-      [Service]
-      ExecStartPre=/usr/bin/mkdir -p /opt/bin
-      ExecStart=/usr/bin/curl -o /opt/bin/%i {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/%i
-      ExecStartPost=/usr/bin/chmod 0755 /opt/bin/%i
+        [Service]
+        ExecStartPre=/usr/bin/mkdir -p /opt/bin
+        ExecStart=/usr/bin/curl -o /opt/bin/%i {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/%i
+        ExecStartPost=/usr/bin/chmod 0755 /opt/bin/%i
     - name: k8s-assets.target
       contents: |
-      [Unit]
-      Description=Load Kubernetes Assets
-      Requires=k8s-bin@kubelet.service
-      After=k8s-bin@kubelet.service
-      Requires=k8s-bin@kube-apiserver.service
-      After=k8s-bin@kube-apiserver.service
-      Requires=k8s-bin@kube-scheduler.service
-      After=k8s-bin@kube-scheduler.service
-      Requires=k8s-bin@kube-proxy.service
-      After=k8s-bin@kube-proxy.service
-      Requires=k8s-bin@kube-controller-manager.service
-      After=k8s-bin@kube-controller-manafer.service
+        [Unit]
+        Description=Load Kubernetes Assets
+        Requires=k8s-bin@kubelet.service
+        After=k8s-bin@kubelet.service
+        Requires=k8s-bin@kube-apiserver.service
+        After=k8s-bin@kube-apiserver.service
+        Requires=k8s-bin@kube-scheduler.service
+        After=k8s-bin@kube-scheduler.service
+        Requires=k8s-bin@kube-proxy.service
+        After=k8s-bin@kube-proxy.service
+        Requires=k8s-bin@kube-controller-manager.service
+        After=k8s-bin@kube-controller-manafer.service
     - name: kube-apiserver.service
       enable: true
     - name: kube-proxy.service
