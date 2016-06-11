@@ -127,6 +127,8 @@ systemd:
       enable: true
     - name: kube-scheduler.service
       enable: true
+    - name: kubelet.service
+      enable: true
     - name: bird.service
       enable: true
       contents: |
