@@ -90,6 +90,21 @@ storage:
       mode: 0644
       contents:
         source: {{.bootcfg_url}}/assets/kubernetes/config/kubelet
+    - path: /etc/kubernetes/ssl/server.pem
+      filesystem: root
+      mode: 0600
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/certs/{{.hostname}}.pem
+    - path: /etc/kubernetes/ssl/server-key.pem
+      filesystem: root
+      mode: 0600
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/certs/{{.hostname}}-key.pem
+    - path: /etc/kubernetes/ssl/ca.pem
+      filesystem: root
+      mode: 0600
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/certs/ca.pem
 
 systemd:
   units:
