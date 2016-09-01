@@ -1,7 +1,7 @@
 {
   "id": "legion",
   "name": "Legion",
-  "profile": "k8s",
+  "profile": "k8s-node",
   "selector": {
     "mac": "68:05:ca:39:cf:d8"
   },

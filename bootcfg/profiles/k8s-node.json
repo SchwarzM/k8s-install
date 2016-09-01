@@ -12,5 +12,5 @@
     }
   },
   "cloud_id": "k8s-ram-nfs.yml",
-  "ignition_id": "k8s-ram-nfs.yml"
+  "ignition_id": "k8s-ram-node.yml"
 }

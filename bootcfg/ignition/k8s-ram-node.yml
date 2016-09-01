@@ -1,0 +1,213 @@
+---
+ignition:
+  version: "2.0.0"
+
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8csscPRh9GHBb/YBwlgRXqWDz+SpiGwpaheuNGFPwDeTuHdUvKG3KbgKtsIkL/p662++81YeRGOXdXAEEF/igSrBbZ68U0Ebg2hnHxIHrLkAefkfFWNkQWWIEgVCby7YkbFZQL1v9otycX6apcj4ZfpK0bWcRFokSdrCC+KRFdQHVuvoy65QUPiHZUmhe3+7CILWz0c1F2Obv+Ybq1nnfvsR/eooMrvb1Nav1PsY7/hvlecr7SnSVkwDpc8m31uNv7IAGeh9ceXbySsD4cupDbWn+J8QPkjxoJK0ion+9fNq8ZjmXyAwpKs8L2DIrD03u9XKlhbS9Q/Mgas2NuBFhqGMoPIffeSjwAMi32wzMPdJFhh6wsGinsgkeFNfcAPoBBPYvsu61vbpD0TjHponAKFimUeW321hunugkfV/5lyb3fB73hv9olWH7rolSx543q+NMrvCB4OkFBA6l1wA5LMJ3fN0ZebxLQ5wi1B4QRya6bYC7en9BIYE1qU82d2Fcx32xrHL2zlBOUywVJWHnqkLTyYKAsANgjkb3aDV8DtEssU/m/mmJp9/HOONKdSBNoTdpEIG7yNidElI8Cz4CkXXF+qWW2NFXBV3ANUTetUlz/BJUJaxACwjOj4VjYYgPxTo0ZrkQHjrqn9cEf4gwnewLZW4GnfMT0v8g+FFwPw==
+
+storage:
+  files:
+    - path: /etc/hostname
+      filesystem: root
+      mode: 0644
+      contents:
+        source: data:application/octet-stream,{{.hostname}}%0A
+    - path: /etc/bird/bird.conf
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/bird/{{.hostname}}.conf
+    - path: /opt/bin/bird
+      filesystem: root
+      mode: 0755
+      contents:
+        source: {{.bootcfg_url}}/assets/bird/bird
+    - path: /opt/bin/iscsiadm
+      filesystem: root
+      mode: 0755
+      contents:
+        source: {{.bootcfg_url}}/assets/iscsi/iscsiadm
+    - path: /opt/bin/iscsid
+      filesystem: root
+      mode: 0755
+      contents:
+        source: {{.bootcfg_url}}/assets/iscsi/iscsid
+    - path: /etc/systemd/system/kube-proxy.service
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-proxy.service
+    - path: /etc/systemd/system/kubelet.service
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kubelet.service
+    - path: /etc/kubernetes/config
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/config
+    - path: /etc/kubernetes/proxy
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/proxy
+    - path: /etc/kubernetes/kubelet
+      filesystem: root
+      mode: 0644
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/config/kubelet
+    - path: /etc/kubernetes/ssl/server.pem
+      filesystem: root
+      mode: 0600
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/certs/{{.hostname}}.pem
+    - path: /etc/kubernetes/ssl/server-key.pem
+      filesystem: root
+      mode: 0600
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/certs/{{.hostname}}-key.pem
+    - path: /etc/kubernetes/ssl/ca.pem
+      filesystem: root
+      mode: 0600
+      contents:
+        source: {{.bootcfg_url}}/assets/kubernetes/certs/ca.pem
+
+systemd:
+  units:
+    - name: k8s-bin@.service
+      contents: |
+        [Unit]
+        Description=Fetch kubernetes binaries
+        Requires=network-online.target
+        After=network-online.target
+
+        [Service]
+        Type=oneshot
+        ExecStartPre=/usr/bin/mkdir -p /opt/bin
+        ExecStart=/usr/bin/curl -o /opt/bin/%i {{.bootcfg_url}}/assets/kubernetes/binaries/vendored/%i
+        ExecStartPost=/usr/bin/chmod 0755 /opt/bin/%i
+    - name: k8s-assets.target
+      contents: |
+        [Unit]
+        Description=Load Kubernetes Assets
+        Requires=k8s-bin@kubelet.service
+        After=k8s-bin@kubelet.service
+        Requires=k8s-bin@kube-proxy.service
+        After=k8s-bin@kube-proxy.service
+    - name: kube-proxy.service
+      enable: true
+    - name: kubelet.service
+      enable: true
+    - name: bird.service
+      enable: true
+      contents: |
+        [Unit]
+        Requires=network-online.target
+        After=network-online.target
+        Description=Bird BGP Daemon
+
+        [Service]
+        ExecStartPre=/usr/bin/mkdir -p /run/bird
+        ExecStart=/opt/bin/bird -d
+
+        [Install]
+        WantedBy=multi-user.target
+    - name: iscsi-config.service
+      enable: true
+      contents: |
+        [Unit]
+        Description=Config iscsi
+        
+        [Service]
+        Type=oneshot
+        ExecStartPre=/usr/bin/mkdir -p /etc/iscsi
+        ExecStart=/usr/bin/bash -l -c "echo InitiatorName=iqn.2016-01.com.coreos:{{.hostname}} > /etc/iscsi/initiatorname.iscsi"
+    - name: iscsid.service
+      enable: true
+      contents: |
+        [Unit]
+        Description=Open-iSCSI daemon
+        Requires=network-online.target iscsi-config.service
+        After=network-online.target iscsi-config.service
+
+        [Service]
+        Type=forking
+        PIDFile=/var/run/iscsid.pid
+        ExecStartPre=/usr/bin/wget -O /opt/bin/iscsid {{.bootcfg_url}}/assets/iscsi/iscsid
+        ExecStartPre=/usr/bin/chmod 755 /opt/bin/iscsid
+        ExecStart=/opt/bin/iscsid
+        ExecStop=/opt/bin/iscsiadm -k 0 2
+
+        [Install]
+        RequiredBy=remote-fs.target
+    - name: iscsi-login.service
+      enable: true
+      contents: |
+        [Unit]
+        Description=iSCSI Login
+        Requires=network-online.target iscsid.service
+        After=iscsid.service
+
+        [Service]
+        Type=oneshot
+        ExecStartPre=/opt/bin/iscsiadm -m discovery -t sendtargets -p {{.iscsi_os_portal}}
+        ExecStart=/opt/bin/iscsiadm -m node -T {{.iscsi_os_target}} -p {{.iscsi_os_portal}} --login
+
+        [Install]
+        RequiredBy=remote-fs.target
+    - name: docker.service
+      enable: true
+      dropins:
+        - name: 10-mount.conf
+          contents: |
+            [Unit]
+            Requires=var-lib-docker.mount
+            After=var-lib-docker.mount
+        - name: 20-network.conf
+          contents: |
+            [Service]
+            Environment="DOCKER_OPT_BIP=--bip={{.pod_network}} --ip-masq=false --iptables=false"
+    - name: etcd2.service
+      enable: true
+      dropins:
+        - name: 10-mount.conf
+          contents: |
+            [Unit]
+            Requires=var-lib-etcd2.mount
+            After=var-lib-etcd2.mount
+        - name: 20-discover.conf
+          contents: |
+            [Service]
+            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/42041290eb2e599dfd3a21e124c2309c
+            Environment=ETCD_INITIAL_ADVERTISE_PEER_URLS=http://{{.hostname}}:2380
+            Environment=ETCD_NAME={{.hostname}}
+            Environment=ETCD_LISTEN_PEER_URLS=http://{{.hostname}}:2380
+            Environment=ETCD_LISTEN_CLIENT_URLS=http://127.0.0.1:2379
+    - name: var-lib-kubernetes.mount
+      enable: true
+      contents: |
+        [Mount]
+        What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_target}}-lun-2
+        Where=/var/lib/kubernetes
+        Options=defaults,auto,_netdev
+        Type=ext4
+    - name: var-lib-docker.mount
+      enable: true
+      contents: |
+        [Mount]
+        What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_target}}-lun-1
+        Where=/var/lib/docker
+        Options=defaults,auto,_netdev
+        Type=ext4
+    - name: var-lib-etcd2.mount
+      enable: true
+      contents: |
+        [Mount]
+        What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_target}}-lun-0
+        Where=/var/lib/etcd2
+        Options=defaults,auto,_netdev
+        Type=ext4
