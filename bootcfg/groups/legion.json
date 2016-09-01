@@ -1,17 +1,13 @@
 {
   "id": "legion",
   "name": "Legion",
-  "profile": "k8s-node",
+  "profile": "install-reboot",
   "selector": {
     "mac": "68:05:ca:39:cf:d8"
   },
   "metadata": {
-    "hostname": "legion",
-    "bootcfg_url": "http://bootcfg:8080",
-    "iscsi_os_portal": "10.0.1.2",
-    "iscsi_os_target": "iqn.2005-10.org.freenas.ctl:legion-coreos",
-    "bgp_neighbor": "10.0.1.12",
-    "bgp_as": "64512",
-    "pod_network": "10.2.2.1/24"
+    "coreos_channel": "stable",
+    "coreos_version": "current",
+    "ignition_endpoint": "http://bootcfg:8080/ignition"
   }
 }
