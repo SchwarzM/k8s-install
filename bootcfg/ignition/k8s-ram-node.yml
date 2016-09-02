@@ -14,78 +14,91 @@ storage:
       contents:
         remote:
           url: data:application/octet-stream,{{.hostname}}%0A
+          verification: {}
     - path: /etc/bird/bird.conf
       filesystem: root
       mode: 0644
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/bird/{{.hostname}}.conf
+          verification: {}
     - path: /opt/bin/bird
       filesystem: root
       mode: 0755
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/bird/bird
+          verification: {}
     - path: /opt/bin/iscsiadm
       filesystem: root
       mode: 0755
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/iscsi/iscsiadm
+          verification: {}
     - path: /opt/bin/iscsid
       filesystem: root
       mode: 0755
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/iscsi/iscsid
+          verification: {}
     - path: /etc/systemd/system/kube-proxy.service
       filesystem: root
       mode: 0644
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/config/kube-proxy.service
+          verification: {}
     - path: /etc/systemd/system/kubelet.service
       filesystem: root
       mode: 0644
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/config/kubelet.service
+          verification: {}
     - path: /etc/kubernetes/config
       filesystem: root
       mode: 0644
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/config/config
+          verification: {}
     - path: /etc/kubernetes/proxy
       filesystem: root
       mode: 0644
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/config/proxy
+          verification: {}
     - path: /etc/kubernetes/kubelet
       filesystem: root
       mode: 0644
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/config/kubelet
+          verification: {}
     - path: /etc/kubernetes/ssl/server.pem
       filesystem: root
       mode: 0600
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/certs/{{.hostname}}.pem
+          verification: {}
     - path: /etc/kubernetes/ssl/server-key.pem
       filesystem: root
       mode: 0600
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/certs/{{.hostname}}-key.pem
+          verification: {}
     - path: /etc/kubernetes/ssl/ca.pem
       filesystem: root
       mode: 0600
       contents:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/certs/ca.pem
+          verification: {}
 
 systemd:
   units:
