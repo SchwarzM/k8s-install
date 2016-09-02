@@ -12,52 +12,62 @@ storage:
       filesystem: root
       mode: 0644
       contents:
-        source: data:application/octet-stream,{{.hostname}}%0A
+        remote:
+          url: data:application/octet-stream,{{.hostname}}%0A
     - path: /etc/bird/bird.conf
       filesystem: root
       mode: 0644
       contents:
-        source: {{.bootcfg_url}}/assets/bird/{{.hostname}}.conf
+        remote:
+          url: {{.bootcfg_url}}/assets/bird/{{.hostname}}.conf
     - path: /opt/bin/bird
       filesystem: root
       mode: 0755
       contents:
-        source: {{.bootcfg_url}}/assets/bird/bird
+        remote:
+          url: {{.bootcfg_url}}/assets/bird/bird
     - path: /opt/bin/iscsiadm
       filesystem: root
       mode: 0755
       contents:
-        source: {{.bootcfg_url}}/assets/iscsi/iscsiadm
+        remote:
+          url: {{.bootcfg_url}}/assets/iscsi/iscsiadm
     - path: /opt/bin/iscsid
       filesystem: root
       mode: 0755
       contents:
-        source: {{.bootcfg_url}}/assets/iscsi/iscsid
+        remote:
+          url: {{.bootcfg_url}}/assets/iscsi/iscsid
     - path: /etc/systemd/system/kube-proxy.service
       filesystem: root
       mode: 0644
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/config/kube-proxy.service
+        remote:
+          url: {{.bootcfg_url}}/assets/kubernetes/config/kube-proxy.service
     - path: /etc/systemd/system/kubelet.service
       filesystem: root
       mode: 0644
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/config/kubelet.service
+        remote:
+          url: {{.bootcfg_url}}/assets/kubernetes/config/kubelet.service
     - path: /etc/kubernetes/config
       filesystem: root
       mode: 0644
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/config/config
+        remote:
+          url: {{.bootcfg_url}}/assets/kubernetes/config/config
     - path: /etc/kubernetes/proxy
       filesystem: root
       mode: 0644
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/config/proxy
+        remote:
+          url: {{.bootcfg_url}}/assets/kubernetes/config/proxy
     - path: /etc/kubernetes/kubelet
       filesystem: root
       mode: 0644
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/config/kubelet
+        remote:
+          url: {{.bootcfg_url}}/assets/kubernetes/config/kubelet
     - path: /etc/kubernetes/ssl/server.pem
       filesystem: root
       mode: 0600
@@ -67,12 +77,14 @@ storage:
       filesystem: root
       mode: 0600
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/certs/{{.hostname}}-key.pem
+        remote:
+          url: {{.bootcfg_url}}/assets/kubernetes/certs/{{.hostname}}-key.pem
     - path: /etc/kubernetes/ssl/ca.pem
       filesystem: root
       mode: 0600
       contents:
-        source: {{.bootcfg_url}}/assets/kubernetes/certs/ca.pem
+        remote:
+          url: {{.bootcfg_url}}/assets/kubernetes/certs/ca.pem
 
 systemd:
   units:
