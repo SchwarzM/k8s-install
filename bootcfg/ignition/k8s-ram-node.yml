@@ -72,7 +72,7 @@ storage:
       filesystem: root
       mode: 0600
       contents:
-        remite:
+        remote:
           url: {{.bootcfg_url}}/assets/kubernetes/certs/{{.hostname}}.pem
     - path: /etc/kubernetes/ssl/server-key.pem
       filesystem: root
