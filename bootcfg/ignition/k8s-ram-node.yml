@@ -195,22 +195,6 @@ systemd:
           contents: |
             [Service]
             Environment="DOCKER_OPT_BIP=--bip={{.pod_network}} --ip-masq=false --iptables=false"
-    - name: etcd2.service
-      enable: true
-      dropins:
-        - name: 10-mount.conf
-          contents: |
-            [Unit]
-            Requires=var-lib-etcd2.mount
-            After=var-lib-etcd2.mount
-        - name: 20-discover.conf
-          contents: |
-            [Service]
-            Environment=ETCD_DISCOVERY=https://discovery.etcd.io/42041290eb2e599dfd3a21e124c2309c
-            Environment=ETCD_INITIAL_ADVERTISE_PEER_URLS=http://{{.hostname}}:2380
-            Environment=ETCD_NAME={{.hostname}}
-            Environment=ETCD_LISTEN_PEER_URLS=http://{{.hostname}}:2380
-            Environment=ETCD_LISTEN_CLIENT_URLS=http://127.0.0.1:2379
     - name: var-lib-kubernetes.mount
       enable: true
       contents: |
