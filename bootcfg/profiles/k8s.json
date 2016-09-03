@@ -2,8 +2,8 @@
   "id": "k8s",
   "name": "Kubernetes Node",
   "boot": {
-    "kernel": "http://stable.release.core-os.net/amd64-usr/current/coreos_production_pxe.vmlinuz",
-    "initrd": ["http://stable.release.core-os.net/amd64-usr/current/coreos_production_pxe_image.cpio.gz"],
+    "kernel": "http://alpha.release.core-os.net/amd64-usr/current/coreos_production_pxe.vmlinuz",
+    "initrd": ["http://alpha.release.core-os.net/amd64-usr/current/coreos_production_pxe_image.cpio.gz"],
     "cmdline": {
       "coreos.autologin": "",
       "coreos.config.url": "http://bootcfg:8080/ignition?uuid=${uuid}&mac=${net0/mac:hexhyp}",
