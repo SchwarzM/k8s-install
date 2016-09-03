@@ -90,7 +90,7 @@ storage:
      mode: 0640
      contents:
        inline: |
-         Initiatorname=iqn.2016-01.com.coreos:{{.hostname}}
+         InitiatorName=iqn.2016-01.com.coreos:{{.hostname}}
 
 systemd:
   units:
@@ -144,8 +144,8 @@ systemd:
 
         [Service]
         Type=oneshot
-        ExecStartPre=/opt/bin/iscsiadm -m discovery -t sendtargets -p {{.iscsi_os_portal}}
-        ExecStart=/opt/bin/iscsiadm -m node -T {{.iscsi_os_target}} -p {{.iscsi_os_portal}} --login
+        ExecStartPre=/usr/sbin/iscsiadm -m discovery -t sendtargets -p {{.iscsi_os_portal}}
+        ExecStart=/usr/sbin/iscsiadm -m node -T {{.iscsi_os_target}} -p {{.iscsi_os_portal}} --login
 
         [Install]
         RequiredBy=remote-fs.target
