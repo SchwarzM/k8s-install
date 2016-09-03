@@ -28,20 +28,6 @@ storage:
         remote:
           url: {{.bootcfg_url}}/assets/bird/bird
           verification: {}
-    - path: /opt/bin/iscsiadm
-      filesystem: root
-      mode: 0755
-      contents:
-        remote:
-          url: {{.bootcfg_url}}/assets/iscsi/iscsiadm
-          verification: {}
-    - path: /opt/bin/iscsid
-      filesystem: root
-      mode: 0755
-      contents:
-        remote:
-          url: {{.bootcfg_url}}/assets/iscsi/iscsid
-          verification: {}
     - path: /etc/systemd/system/kube-controller-manager.service
       filesystem: root
       mode: 0644
