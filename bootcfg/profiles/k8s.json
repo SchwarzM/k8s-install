@@ -7,7 +7,6 @@
     "cmdline": {
       "coreos.autologin": "",
       "coreos.config.url": "http://bootcfg.hell.corp:8080/ignition?uuid=${uuid}&mac=${net0/mac:hexhyp}",
-      "cloud-config-url": "http://bootcfg.hell.corp:8080/cloud?uuid=${uuid}&mac=${net0/mac:hexhyp}",
       "coreos.first_boot": ""
     }
   },
