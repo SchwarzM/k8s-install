@@ -126,6 +126,12 @@ storage:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/certs/ca.pem
           verification: {}
+    - path: /etc/iscsi/initiatorname.iscsi
+      filesystem: root
+      mode: 0640
+      contents:
+        inline: |
+          Initiatorname=iqn.2016-01.com.coreos:{{.hostname}}
 
 systemd:
   units:
@@ -179,34 +185,8 @@ systemd:
 
         [Install]
         WantedBy=multi-user.target
-    - name: iscsi-config.service
-      enable: true
-      contents: |
-        [Unit]
-        Description=Config iscsi
-        
-        [Service]
-        Type=oneshot
-        ExecStartPre=/usr/bin/mkdir -p /etc/iscsi
-        ExecStart=/usr/bin/bash -l -c "echo InitiatorName=iqn.2016-01.com.coreos:{{.hostname}} > /etc/iscsi/initiatorname.iscsi"
     - name: iscsid.service
       enable: true
-      contents: |
-        [Unit]
-        Description=Open-iSCSI daemon
-        Requires=network-online.target iscsi-config.service
-        After=network-online.target iscsi-config.service
-
-        [Service]
-        Type=forking
-        PIDFile=/var/run/iscsid.pid
-        ExecStartPre=/usr/bin/wget -O /opt/bin/iscsid {{.bootcfg_url}}/assets/iscsi/iscsid
-        ExecStartPre=/usr/bin/chmod 755 /opt/bin/iscsid
-        ExecStart=/opt/bin/iscsid
-        ExecStop=/opt/bin/iscsiadm -k 0 2
-
-        [Install]
-        RequiredBy=remote-fs.target
     - name: iscsi-login.service
       enable: true
       contents: |
