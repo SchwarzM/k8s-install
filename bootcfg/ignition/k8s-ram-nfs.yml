@@ -193,7 +193,7 @@ systemd:
         [Unit]
         Description=iSCSI Login
         Requires=network-online.target iscsid.service
-        After=iscsid.service
+        After=network-online.target iscsid.service
 
         [Service]
         Type=oneshot
