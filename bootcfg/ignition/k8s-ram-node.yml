@@ -87,12 +87,12 @@ storage:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/certs/ca.pem
           verification: {}
-   - path: /etc/iscsi/initiatorname.iscsi
-     filesystem: root
-     mode: 0640
-     contents:
-       inline: |
-         InitiatorName=iqn.2016-01.com.coreos:{{.hostname}} 
+    - path: /etc/iscsi/initiatorname.iscsi
+      filesystem: root
+      mode: 0640
+      contents:
+        inline: |
+          InitiatorName=iqn.2016-01.com.coreos:{{.hostname}} 
 systemd:
   units:
     - name: k8s-bin@.service
