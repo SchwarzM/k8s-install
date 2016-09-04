@@ -1,5 +1,4 @@
 ---
-
 passwd:
   users:
     - name: core
@@ -12,9 +11,8 @@ storage:
       filesystem: root
       mode: 0644
       contents:
-        remote:
-          url: data:application/octet-stream,{{.hostname}}%0A
-          verification: {}
+        inline: |
+          {{.hostname}}
     - path: /etc/bird/bird.conf
       filesystem: root
       mode: 0644
@@ -68,7 +66,6 @@ storage:
           KUBELET_HOSTNAME=""
           KUBELET_API_SERVER="--api-servers=https://10.2.1.1"
           KUBELET_ARGS=""
-
     - path: /etc/kubernetes/ssl/server.pem
       filesystem: root
       mode: 0600
@@ -95,8 +92,7 @@ storage:
      mode: 0640
      contents:
        inline: |
-         InitiatorName=iqn.2016-01.com.coreos:{{.hostname}}
-
+         InitiatorName=iqn.2016-01.com.coreos:{{.hostname}} 
 systemd:
   units:
     - name: k8s-bin@.service
