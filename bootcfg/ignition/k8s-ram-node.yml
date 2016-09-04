@@ -55,7 +55,7 @@ storage:
       mode: 0644
       contents:
         inline: |
-          KUBE_PROXY_ARGS=""
+          KUBE_PROXY_ARGS="--kubeconfig=/etc/kubernetes/kubeconfig"
     - path: /etc/kubernetes/kubelet
       filesystem: root
       mode: 0644
@@ -65,7 +65,7 @@ storage:
           KUBELET_PORT="--port=10250"
           KUBELET_HOSTNAME=""
           KUBELET_API_SERVER="--api-servers=https://10.2.1.1"
-          KUBELET_ARGS=""
+          KUBELET_ARGS="--kubeconfig=/etc/kubernetes/kubeconfig"
     - path: /etc/kubernetes/ssl/server.pem
       filesystem: root
       mode: 0600
@@ -87,6 +87,28 @@ storage:
         remote:
           url: {{.bootcfg_url}}/assets/kubernetes/certs/ca.pem
           verification: {}
+    - path: /etc/kubernetes/kubeconfig
+      filesystem: root
+      mode: 0600
+      contents:
+        inline: |
+          apiVersion: v1
+          kind: Config
+          clusters:
+          - name: local
+            cluster:
+              certificate-authority: /etc/kubernetes/ssl/ca.pem
+          users:
+          - name: admin
+            user:
+              client-certificate: /etc/kubernetes/ssl/server.pem
+              client-key: /etc/kubernetes/ssl/server-key.pem
+          contexts:
+          - context:
+              cluster: local
+              user: admin
+            name: server-context
+          current-context: server-context
     - path: /etc/iscsi/initiatorname.iscsi
       filesystem: root
       mode: 0640
