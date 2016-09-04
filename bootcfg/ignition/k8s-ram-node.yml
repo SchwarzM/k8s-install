@@ -47,23 +47,27 @@ storage:
       filesystem: root
       mode: 0644
       contents:
-        remote:
-          url: {{.bootcfg_url}}/assets/kubernetes/config/config
-          verification: {}
+        inline: |
+          KUBE_LOGTOSTDERR="--logtostderr=true"
+          KUBE_LOG_LEVEL="--v=0"
+          KUBE_ALLOW_PRIV="--allow-privileged=true"
+          KUBE_MASTER="--master=https://10.2.1.1" 
     - path: /etc/kubernetes/proxy
       filesystem: root
       mode: 0644
       contents:
-        remote:
-          url: {{.bootcfg_url}}/assets/kubernetes/config/proxy
-          verification: {}
+        inline: |
+          KUBE_PROXY_ARGS=""
     - path: /etc/kubernetes/kubelet
       filesystem: root
       mode: 0644
       contents:
-        remote:
-          url: {{.bootcfg_url}}/assets/kubernetes/config/kubelet
-          verification: {}
+        inline: |
+          KUBELET_ADDRESS="--address=0.0.0.0"
+          KUBELET_PORT="--port=10250"
+          KUBELET_HOSTNAME=""
+          KUBELET_API_SERVER="--api-servers=https://10.2.1.1"
+          KUBELET_ARGS=""
     - path: /etc/kubernetes/ssl/server.pem
       filesystem: root
       mode: 0600
@@ -175,13 +179,5 @@ systemd:
         [Mount]
         What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_target}}-lun-1
         Where=/var/lib/docker
-        Options=defaults,auto,_netdev
-        Type=ext4
-    - name: var-lib-etcd2.mount
-      enable: true
-      contents: |
-        [Mount]
-        What=/dev/disk/by-path/ip-{{.iscsi_os_portal}}:3260-iscsi-{{.iscsi_os_target}}-lun-0
-        Where=/var/lib/etcd2
         Options=defaults,auto,_netdev
         Type=ext4

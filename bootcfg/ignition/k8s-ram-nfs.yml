@@ -67,9 +67,11 @@ storage:
       filesystem: root
       mode: 0644
       contents:
-        remote:
-          url: {{.bootcfg_url}}/assets/kubernetes/config/config
-          verification: {}
+        inline: |
+          KUBE_LOGTOSTDERR="--logtostderr=true"
+          KUBE_LOG_LEVEL="--v=0"
+          KUBE_ALLOW_PRIV="--allow-privileged=true"
+          KUBE_MASTER="--master=http://127.0.0.1:8080"
     - path: /etc/kubernetes/apiserver
       filesystem: root
       mode: 0644
