@@ -3,4 +3,5 @@
 bootcfg/assets/kubernetes/binaries
 bootcfg/assets/coreos
 certs/
+contrib/ipxe-build/build/
 scripts/tls/*
