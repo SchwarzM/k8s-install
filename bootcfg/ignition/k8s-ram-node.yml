@@ -65,7 +65,7 @@ storage:
           KUBELET_PORT="--port=10250"
           KUBELET_HOSTNAME=""
           KUBELET_API_SERVER="--api-servers=https://10.2.1.1"
-          KUBELET_ARGS="--kubeconfig=/etc/kubernetes/kubeconfig"
+          KUBELET_ARGS="--kubeconfig=/etc/kubernetes/kubeconfig --cluster-dns=10.2.2.2 --cluster-domain=k8s.hell.corp"
     - path: /etc/kubernetes/ssl/server.pem
       filesystem: root
       mode: 0600
